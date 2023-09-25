@@ -1,0 +1,25 @@
+problem: Design Spliwise
+
+Solution:
+
+1. Requirements:
+    a. User can add/update expense with other user.
+    b. User can see the balance history with  other  users.
+    c. User can settle balance
+    d. User can add/update group expense with other group users.
+    e. User can settle group balance and get payment graph for group.
+
+2. API's:
+    a.[POST] CreateExpense(userid, expensemetadata{name,desc,bio,createdAt,modifiedAt}, totalamount, paidAmountBalances{BalanceMap(user,paidAmount)}, oweAmountBalances{BalanceMap(user,oweAmount)}) --> expenseId
+    b.[PUT] UpdateExpense(expenseid, expensemetadata{name,desc,bio,createdAt,modifiedAt}, totalamount, paidAmountBalances{BalanceMap(user,paidAmount)}, oweAmountBalances{BalanceMap(user,oweAmount)})
+    c.[POST] CreateGroup(groupmetadata{name,desc,bio,createdAt,modifiedAt}, list<userid>) --> groupid
+    d.[POST] CreateGroupExpense(userid, groupid, expensemetadata{name,desc,bio,createdAt,modifiedAt}, totalamount, paidAmountBalances{BalanceMap(user,paidAmount)}, oweAmountBalances{BalanceMap(user,oweAmount)}) -> expenseId
+    e.[Get] SettleGroupExpense(groupid, userid) -> PaymentGraph{user1,user2,amount}
+
+3. Database structure:
+    a. User table :- userid, metadata
+    b. Expense table :- expenseid, metadata, totalamount, BalanceMap<userid, balanceamount>, groupid
+    c. Group table :- groupid, metadata, list<userid>
+
+4. Coding:
+    
