@@ -1,0 +1,26 @@
+problem: Design a cache.
+
+Solution:
+
+1. Requirements:
+    a. cache will be key/value pair in-memory database.
+    b. user can get/set cache entry.
+    c. user can set TTL for any cache entry, if not set by default it will have no TTL.
+    d. user can create multiple cache with different eviction policy(LFU, LRU).
+    e. user can create multiple cache with different data-persistence policy(write-back, write-through).
+    f. user can define cache size.
+
+2. Constraints:
+    a. Code should follow SOLID principles.
+    b. Code should be extensible and reliable.
+
+3. API's:
+    a. INIT(eviction_policy, cache_size, default_ttl_for_each_entry) -> cache_client
+    b. cache_client.GET(key) -> value
+    c. cache_client.SET(key,value,TTL) -> error
+
+4. Database:
+    a. Cache_Client_DB -> cache_client_id<PK>, cache_memory_id<FK>, eviction_policy, cache_size, default_ttl_for_each_entry, createdAt, modifieAt, trash
+    b. Cache_Memory_DB -> cache_memory_id<PK>, List<Key,{Value,TTL}>
+
+5. Coding:
