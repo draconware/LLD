@@ -13,10 +13,13 @@ func InitializeCacheClient[K comparable, V models.Value](cache_size int, evictio
 	cacheClient := &models.CacheClient[K, V]{
 		Id:         helpers.GetUniqueIdString(),
 		CacheSize:  cache_size,
-		DefaultTTL: time.Duration(default_ttl),
+		DefaultTTL: time.Duration(default_ttl) * time.Second,
 		CreatedAt:  time.Now(),
 		Trash:      false,
-		Db:         data_service.InitializeInMemoryDB[K, V](),
+		Db:         data_service.InitializeInMemoryDB[K, V](cache_size),
+		WokerPool: models.WorkerPool{
+			WorkerCount: 11,
+		},
 	}
 	if evictionPolicy == models.LRU_EvicitionPolicyType {
 		cacheClient.EvictionPolicy = &data_service.LRU_EvicitionPoliy[K]{}

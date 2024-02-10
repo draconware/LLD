@@ -22,7 +22,9 @@ func (ep *LRU_EvicitionPoliy[K]) Evict() K {
 	return key
 }
 
-func (ep *LRU_EvicitionPoliy[K]) Update(key K) {
+func (ep *LRU_EvicitionPoliy[K]) Update(key K, remove bool) {
 	ep.LRU_DB.RemoveNode(key)
-	ep.LRU_DB.AddNode(key)
+	if !remove {
+		ep.LRU_DB.AddNode(key)
+	}
 }
