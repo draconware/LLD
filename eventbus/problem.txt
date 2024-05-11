@@ -1,0 +1,17 @@
+Now let's note down the requirements for our event bus
+
+1. It must support multiple publishers and subscribers.
+2. Component can subscribe to events of a topic or multiple topics. So we need to partition events into different queues depending upon the topic. Additionally we each event can have multiple topics so it will be published to multiple queues.
+3. We want to ensure that an event is processed only once even if the event is published to queue multiple times. In short we want to achieve idempotency.
+4. It might happen that the event bus sends an event to a subscriber but does not receive any acknowledgement. We need to handle this case.
+5. We should be able to retry on failures.
+6. Event bus can either push events to components or the components can pull events from the bus. So we need to implement push/pull mechanism. We must allow components to pull events after a particular ID or timestamps.
+7. Some events have to be processed in order. For example event B must be processed only after event A. Our event bus must process these events in order.
+
+API's:
+
+1. PublishEvents(topic string, event Event) (PublishEventResponse, error)
+2. SubscribeEventsWithPullFromTimestamp(topic string, subscriberId string, timestamp int64) (SubscribeEventsResponse, error)
+3. SubscribeEventsWithPullFromEventId(topic string, subscriberId string, eventId string) (SubscribeEventsResponse, error)
+4. SubscribeEventWithPush(topic string, subscriberId string) (SubscribeEventsResponse, error)
+
