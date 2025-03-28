@@ -1,0 +1,197 @@
+Requirements:
+
+R1: parking lot should have capacity of 40,000 vehicles.
+R2: 4 types of parking spots are present handicapped, compact, large and motorbike.
+R3: parking lot should have multiple entrance and exit points.
+R4: parking lot should contain a display boards showing free parking spots.
+R5: 4 types of vehicles are allowed Car, Truck, Van, motorcycle.
+R6: customer should collect parking ticket from entrance and pay at exit points.
+R7: customer can either pay at automated exit panel or to an parking agent at exit.
+R8: payment should be calculated on hourly basis and could be made via card/cash.
+
+API's:
+1. [POST]: parkVehicle(vehicle, entrance) - ParkingTicket
+2. [POST]: PayParkingPrice(parkingLotId, ParkingTicket) - PaymentStatus
+3. [GET]: ShowDisplayBoard(parkingLotId) - DisplayBoard 
+
+Classes:
+1. ParkingSpot (abstract class)
+    members:
+        - isSpotFree bool
+        - vehicle Vehicle
+    methods:
+        - getIsSpotFree() bool 
+        - assignVehicle(Vehicle) (abstract method)
+2. HandicappedParkingSpot extends ParkingSpot
+3. CompactParkingSpot extends ParkingSpot
+4. LargeParkingSpot extends ParkingSpot
+5. MotorbikeParkingSpot extends ParkingSpot
+
+6. Vehicle (abstract class)
+    members: 
+        - licenseNo. string
+        - ticket ParkingTicket
+    methods:
+        - getLicenseNo() string
+        - assignTicket(ParkingTicket) (abstract method)
+7. CarVehicle extends Vehicle
+8. TruckVehicle extends Vehicle
+9. VanVehicle extends Vehicle
+10. MotorcycleVehicle extends Vehicle
+
+11. ParkingTicket 
+    members:
+        - ticketNumber string
+        - timestamp DateTime
+        - exitTimestamp DateTime
+        - payment Payment
+        - amount double
+        - status PaymentStatus
+        - vehicle Vehicle
+        - entrance Entrance
+        - exit Exit
+
+12. Entrance 
+    members:
+        - id
+    method:
+        - getParkingTicket() ParkingTicket 
+13. Exit
+    members:
+        - id
+    method:
+        - validateParkingTicket(ParkingTicket) 
+
+14. Payment (abstract class)
+    members:
+        - amount double
+        - status PaymentStatus
+        - date DateTime
+    method:
+        - initiateTransaction() (abstract method)
+15. CardPayment extends Payment
+16. CashPayment extends Payment
+
+17. PaymentStatus (Enum)
+    - Completed, Failed, Pending, Cancelled, UnPaid
+
+18. Account (abstract class)
+    members:
+        - username string
+        - password string
+        - person Person 
+        - status AccountStatus
+    methods:
+        - resetPassword (abstract method)
+
+19. AdminAccount extends Account 
+    methods:
+        - addEntrance(Entrance)
+        - addExit(Exit)
+        - addParkingSpot(ParkingSpot)
+        - addDisplayBoard(DisplayBoard)
+20. ParkingAgentAccount extends Account
+    methods:
+        - processTicket(ParkingTicket)
+21. AccountStatus (enum)
+    - Actice, Closed, Canceled, BlackListed, None
+22. Person 
+    members:
+        - name  string
+        - address string
+        - phone string
+        - email string
+
+
+
+
+
+
+    
+    
+
+Actors:
+
+1. Primary actors: Customer, Parking agent 
+2. Seconday actors: Admin, System
+
+Classes:
+
+1. IParkingSpot (<interface>)
+    - getIsSpotFree() bool
+2. ParkingSpot (<struct>)
+    - isSpotFree <bool>
+2. LargeParkingSpot (<struct>)
+    - id
+    - ParkingSpot
+
+    - getIsSpotFree() <bool> 
+3. CompactParkingSpot (<struct>)
+    - id
+    - ParkingSpot
+
+    - getIsSpotFree() <bool> 
+4. HandicappedParkingSpot (<struct>)
+    - id
+    - ParkingSpot
+
+    - getIsSpotFree() <bool> 
+5. MotorcycleParkingSpot (<struct>)
+    - id
+    - ParkingSpot
+
+    - getIsSpotFree() <bool> 
+
+6. IVehicle (<interface>)
+    - getTicket() 
+7. Vehicle (<struct>)
+    - licenseNo. <string>
+7. TruckVehicle (<struct>)
+    - Vehicle
+    
+    -- getTicket()
+8. CarVehicle (<struct>)
+    - Vehicle
+    
+    -- getTicket()
+9. MotorcycleVehicle (<struct>)
+    - Vehicle
+    
+    -- getTicket()
+10. VanVehicle (<struct>)
+    - Vehicle
+    
+    -- getTicket()
+11. IAccount (<interface>)
+    - login()
+    - logout()
+    - resetPassword()
+12. Account (<struct>)
+    - username <string>
+    - password <string>
+    - status <AccountStatus>
+    - person Person 
+13. AdminAccount (<struct>)
+    -- addParkingSpot()
+    -- addDisplayBoard()
+    -- addEntrance()
+    -- addExit()
+14. ParkingAgent (<struct>)
+    -- processTicket()
+
+15. ParkingTicket (<struct>)
+    - ticketNo. string
+    - timestamp DateTime
+    - exit DateTime
+    - amount double
+    - payment Payment
+
+16. IPayment (<interface>)
+    - calculate() 
+17. Payment (<struct>)
+    - amount double
+    - status PaymentStatus
+    - timestamp DateTime 
+18. CardPayment (<struct>)
+    - 
+
